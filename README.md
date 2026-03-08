@@ -12,10 +12,10 @@ From the free guide: **Everything You Need to Stay Ahead of 99% of Claude Code U
 Your identity file. Claude reads this every time it starts — it's how Claude knows who you are, how you work, and what you care about. Fill in the `[brackets]` with your own details.
 
 ### `.mcp.json`
-Pre-built config connecting Claude to 5 tools: Notion, Slack, GitHub, Brave Search, and Firecrawl. Swap in your API keys from `.env` and restart Claude — it'll have direct access to all of them.
+Pre-built config connecting Claude to 5 tools: Notion, Slack, GitHub, Brave Search, and Firecrawl. It reads your API keys from your shell environment — no keys are ever stored in this file.
 
 ### `.env.example`
-Copy to `.env` and fill in your API keys. Never commit `.env` to git (it's already in `.gitignore`).
+A reference sheet listing every environment variable you need and where to get each key.
 
 ### `.claude/commands/` — 5 Starter Skills
 
@@ -31,25 +31,68 @@ Copy to `.env` and fill in your API keys. Never commit `.env` to git (it's alrea
 
 ## Setup
 
-1. Clone or download this repo
-2. Copy `.env.example` → `.env` and fill in your API keys
-3. Fill in `CLAUDE.md` with your details
-4. Open the folder in VS Code
-5. In the VS Code terminal: `claude`
+### 1. Clone the repo
+```bash
+git clone https://github.com/AvolveAi/ai-command-centre.git
+cd ai-command-centre
+```
 
-That's it. Claude will read your `CLAUDE.md` and all 5 skills will be live immediately — type `/summarise`, `/research`, `/daily-brief`, `/draft-email`, or `/brainstorm` to use them.
+### 2. Add your API keys to your shell profile
 
-To add more MCPs, ask Claude:
-> *"I use [tool name]. Does an MCP exist for it? If yes, walk me through adding it to my .mcp.json."*
+Open `~/.zshrc` (or `~/.bash_profile` on older Macs) and add your keys:
+
+```bash
+export NOTION_API_KEY="your-key-here"
+export SLACK_BOT_TOKEN="your-token-here"
+export SLACK_TEAM_ID="your-team-id-here"
+export GITHUB_PERSONAL_ACCESS_TOKEN="your-token-here"
+export BRAVE_API_KEY="your-key-here"
+export FIRECRAWL_API_KEY="your-key-here"
+```
+
+Then reload your shell:
+```bash
+source ~/.zshrc
+```
+
+See `.env.example` for where to get each key. Only add the ones you need — unused MCPs are simply ignored.
+
+> **Why shell exports?** Keys in your shell profile are available to all your tools, never committed to git, and never duplicated across projects. It's the standard approach for keeping credentials secure.
+
+### 3. Fill in your `CLAUDE.md`
+
+Open `CLAUDE.md` and replace the `[brackets]` with your own details. This is what makes Claude feel personal.
+
+### 4. Open in VS Code and start Claude
+
+```bash
+code .
+```
+
+In the VS Code terminal:
+```bash
+claude
+```
+
+Claude will read your `CLAUDE.md` and all 5 skills are immediately available. Type `/summarise`, `/research`, `/daily-brief`, `/draft-email`, or `/brainstorm` to use them.
+
+---
+
+## Adding More MCPs
+
+Ask Claude directly:
+> *"I use [tool name]. Does an MCP exist for it? If yes, walk me through adding it to my .mcp.json and setting up the API key."*
+
+Claude will find the right package, write the config entry, and tell you exactly which environment variable to export.
 
 ---
 
 ## Want to Go Further?
 
-Anthropics's official skills library — production-ready skills you can clone and customise:
+Anthropic's official skills library — production-ready skills you can clone and customise:
 👉 [github.com/anthropics/skills](https://github.com/anthropics/skills)
 
-Anthropics's complete guide to building skills:
+Anthropic's complete guide to building skills:
 👉 [The Complete Guide to Building Skills for Claude](https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf)
 
 ---
